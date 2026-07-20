@@ -219,13 +219,15 @@ TABS.forEach((t,i)=>{const b=document.createElement('button');b.className='tab'+
  const byEpic=sumBy(D.feats,'epic','total');
  function bars(map,colorFn,fmtv,ord){let ent=Object.entries(map);ent=ord?ent.sort((a,b)=>ord.indexOf(a[0])-ord.indexOf(b[0])):ent.sort((a,b)=>b[1]-a[1]);const mx=Math.max(...ent.map(e=>e[1]));
   return ent.map(([k,v])=>`<div class="barrow"><div class="bl">${k}</div><div class="bwrap"><div class="bf" style="width:${(v/mx*100).toFixed(1)}%;background:${colorFn(k)}"></div></div><div class="bt">${fmtv(v)}</div></div>`).join('');}
+ function barsHC(hmap,cmap,colorFn){const ent=Object.entries(hmap).sort((a,b)=>b[1]-a[1]);const mx=Math.max(...ent.map(e=>e[1]));
+  return ent.map(([k,v])=>`<div class="barrow"><div class="bl">${TEAMN[k]||k}</div><div class="bwrap"><div class="bf" style="width:${(v/mx*100).toFixed(1)}%;background:${colorFn(k)}"></div></div><div class="bt" style="width:170px;text-align:right">${fmt(v)} hrs &middot; ${money(cmap[k]||0)}</div></div>`).join('');}
  document.getElementById('s-cost').innerHTML=`
  <div class="card"><h2>Investment summary</h2>
   <div class="kpis" style="margin:0">
    ${[[fmt(D.totHrs)+' hrs','Total effort'],[money(D.totCost),'Total investment'],['$'+D.rate+'/hr','Blended rate'],[fmt(Math.round(D.totHrs/8)),'Person-days'],[fmt(byStatus['Proven Process']||0)+' hrs','Delivery lifecycle'],[fmt(byStatus['Quick Wins']||0)+' hrs','Quick Wins']].map(k=>`<div class="kpi" style="background:#f4f6fa;border-color:var(--line);color:var(--ink)"><div class="v" style="color:var(--navy)">${k[0]}</div><div class="l" style="color:var(--muted)">${k[1]}</div></div>`).join('')}
   </div></div>
  <div class="grid2">
-  <div class="card"><h2>Hours &amp; cost by team</h2>${bars(cTeam,k=>TEAMC[k]||'#888',money)}<div class="note">CE Team carries the Project Operations build &amp; integrations; F&O the finance/forecasting; Data the Power BI reporting layer.</div></div>
+  <div class="card"><h2>Hours &amp; cost by team</h2>${barsHC(byTeam,cTeam,k=>TEAMC[k]||'#888')}<div class="note">CE Team carries the Project Operations build &amp; integrations; F&O the finance/forecasting; Data the Power BI reporting layer; PM the project-management bucket.</div></div>
   <div class="card"><h2>Hours by proven-process stage</h2>${bars(byStage,k=>({Define:'#2E75B6',Create:'#7030A0',Deploy:'#C0392B',Empower:'#548235'}[k]||'#888'),v=>fmt(v)+'h',['Define','Create','Deploy','Empower'])}</div>
  </div>
  <div class="card"><h2>Hours by work type</h2>${bars(byStatus,k=>STATC[k]||'#888',v=>fmt(v)+'h')}</div>
