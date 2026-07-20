@@ -228,7 +228,7 @@ TABS.forEach((t,i)=>{const b=document.createElement('button');b.className='tab'+
  document.getElementById('s-cost').innerHTML=`
  <div class="card"><h2>Investment summary</h2>
   <div class="kpis" style="margin:0">
-   ${[[fmt(D.totHrs)+' hrs','Total effort'],[money(D.totCost),'Total investment'],['$'+D.rate+'/hr','Blended rate'],[fmt(byStatus['Proven Process']||0)+' hrs','Delivery lifecycle'],[fmt(byStatus['Quick Wins']||0)+' hrs','Quick Wins']].map(k=>`<div class="kpi" style="background:#f4f6fa;border-color:var(--line);color:var(--ink)"><div class="v" style="color:var(--navy)">${k[0]}</div><div class="l" style="color:var(--muted)">${k[1]}</div></div>`).join('')}
+   ${[[fmt(D.totHrs)+' hrs','Total effort'],[money(D.totCost),'Total investment'],['$'+D.rate+'/hr','Blended rate'],[fmt(byStatus['Sell to Deliver']||0)+' hrs','Build hours'],[fmt(byStatus['Proven Process']||0)+' hrs','Proven Process'],[fmt(byStatus['Quick Wins']||0)+' hrs','Quick Wins']].map(k=>`<div class="kpi" style="background:#f4f6fa;border-color:var(--line);color:var(--ink)"><div class="v" style="color:var(--navy)">${k[0]}</div><div class="l" style="color:var(--muted)">${k[1]}</div></div>`).join('')}
   </div></div>
  <div class="card"><h2>Resourcing by role</h2>${roleBars}<div class="note">Client-provided role allocation &middot; ${fmt(roleTot)} hrs total &middot; ${money(roleTot*D.rate)} at $${D.rate}/hr &middot; aligns with the ${fmt(D.totHrs)}-hr backlog estimate.</div></div>
  <div class="grid2">
